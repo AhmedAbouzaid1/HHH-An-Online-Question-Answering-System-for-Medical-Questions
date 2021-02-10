@@ -29,12 +29,12 @@ from AttentionLayer import AttentionLayer
 
 # ------------------预加载------------------ #
 
-TRAIN_CSV = './data/train.csv'
+TRAIN_CSV = 'C://Users/Administrator/Documents/HHH-An-Online-Question-Answering-System-for-Medical-Questions/Data/Model_train_dev_test_dataset/Other_model_train_dev_test_dataset/train.csv'
 flag = 'en'
-embedding_path = 'GoogleNews-vectors-negative300.bin.gz'
+embedding_path = 'C:\\Users\Administrator\Downloads\Compressed\GoogleNews-vectors-negative300.bin.gz'
 embedding_dim = 300
 max_seq_length = 10
-savepath = './data/en_SiameseLSTM.h5'
+savepath = 'C://Users/Administrator/Documents/HHH-An-Online-Question-Answering-System-for-Medical-Questions/en_SiameseLSTM.h5'
 
 # 加载词向量
 print("Loading word2vec model(it may takes 2-3 mins) ...")
@@ -199,14 +199,16 @@ if __name__ == '__main__':
     training_end_time = time()
     print("Training time finished.\n%d epochs in %12.2f" % (n_epoch, training_end_time - training_start_time))
 
+    model.save(savepath)
+
     # Plot accuracy
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
 
     plt.subplot(211)
-    plt.plot(malstm_trained.history['acc'])
-    plt.plot(malstm_trained.history['val_acc'])
+    plt.plot(malstm_trained.history['accuracy'])
+    plt.plot(malstm_trained.history['val_accuracy'])
     plt.title('Model Accuracy')
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
@@ -222,9 +224,8 @@ if __name__ == '__main__':
     plt.legend(['Train', 'Validation'], loc='upper right')
 
     plt.tight_layout(h_pad=1.0)
-    plt.savefig('./data/history-graph.png')
+    plt.savefig('C://Users/Administrator/Documents/HHH-An-Online-Question-Answering-System-for-Medical-Questions/history-graph.png')
 
-    model.save(savepath)
-    print(str(malstm_trained.history['val_acc'][-1])[:6] +
-          "(max: " + str(max(malstm_trained.history['val_acc']))[:6] + ")")
+    print(str(malstm_trained.history['val_accuracy'][-1])[:6] +
+          "(max: " + str(max(malstm_trained.history['val_accuracy']))[:6] + ")")
     print("Done.")
